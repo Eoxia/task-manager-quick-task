@@ -1,0 +1,14 @@
+{
+	"name": "Task Manager Quick Task Core",
+	"slug": "core",
+	"version": "0.0.0.1",
+	"description": "Le module boot de Task Manager Quick Task",
+	"path": "core/",
+	"dependencies": {
+		"util": {},
+		"action": {},
+		"class": {},
+		"helper": {},
+		"shortcode": {}
+	}
+}

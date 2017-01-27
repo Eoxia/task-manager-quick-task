@@ -1,0 +1,13 @@
+{
+	"name": "Task Manager Quick Task",
+	"slug": "task-manager-quick-task",
+	"version": "0.0.0.1",
+	"description": "Outils pour écrire des tâches rapidements dans le compte client \"eoxia\" de WPShop.",
+	"insert_scripts_pages": [
+	],
+	"modules": [
+		"core/external/wpeo_model/wpeo_model.config.json",
+		"core/core.config.json"
+	],
+	"debug": false
+}
