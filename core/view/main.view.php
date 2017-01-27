@@ -14,12 +14,12 @@ namespace task_manager_quick_task;
 
 if ( ! defined( 'ABSPATH' ) ) {	exit; } ?>
 
-<form>
+<form action="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" class="form quick-task">
 	<input type="hidden" name="action" value="create_quick_task" />
 	<input type="hidden" name="parent_id" value="10" />
 	<?php wp_nonce_field( 'create_quick_task' ); ?>
 
 	<textarea name="comment"></textarea>
 	<input type="text" name="time" value="15" />
-	<input type="submit" />
+	<input type="submit" class="submit-form" />
 </form>

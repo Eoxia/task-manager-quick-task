@@ -10,7 +10,7 @@
  * @subpackage util
  */
 
-namespace task_manager_quick_action;
+namespace task_manager_quick_task;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

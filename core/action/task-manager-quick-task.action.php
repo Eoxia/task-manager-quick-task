@@ -10,7 +10,6 @@
 
 namespace task_manager_quick_task;
 
-
 if ( ! defined( 'ABSPATH' ) ) {	exit; }
 
 /**
@@ -26,6 +25,7 @@ class Task_Manager_Quick_Task_Action {
 	 */
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'callback_before_admin_enqueue_scripts' ), 10 );
+		add_action( 'admin_enqueue_scripts', array( $this, 'callback_admin_enqueue_scripts' ), 11 );
 		add_action( 'admin_bar_menu', array( $this, 'callback_admin_bar_menu' ), 105 );
 
 		add_action( 'wp_ajax_open_popup_quick_task', array( $this, 'callback_open_popup_quick_task' ) );
@@ -44,6 +44,18 @@ class Task_Manager_Quick_Task_Action {
 		wp_enqueue_script( 'jquery' );
 		wp_enqueue_script( 'jquery-form' );
 		add_thickbox();
+	}
+
+	/**
+	 * Initialise le fichier style.min.css et backend.min.js du plugin.
+	 *
+	 * @return void
+	 *
+	 * @since 0.0.0.1
+	 * @version 0.0.0.1
+	 */
+	public function callback_admin_enqueue_scripts() {
+		wp_enqueue_script( 'task-manager-quick-task-script', PLUGIN_TASK_MANAGER_QUICK_TASK_URL . 'core/assets/js/backend.min.js', array(), config_util::$init['task-manager-quick-task']->version, false );
 	}
 
 
@@ -68,7 +80,7 @@ class Task_Manager_Quick_Task_Action {
 		$button_open_popup = array(
 			'id'       	=> 'button-open-popup-quick-task',
 			'href'			=> '#',
-			'title'    	=> __( 'Quick task', 'task_manager_quick_action' ),
+			'title'    	=> __( 'Quick task', 'task_manager_quick_task' ),
 			'meta'		 	=> array(
 				'onclick' => 'tb_show( "Quick Task", "' . $href . '")',
 			),
@@ -77,10 +89,18 @@ class Task_Manager_Quick_Task_Action {
 		$wp_admin_bar->add_node( $button_open_popup );
 	}
 
+	/**
+	 * Cette méthode appelle une vue qui se renvoyé au rendu de la thickbox.
+	 *
+	 * @return void
+	 *
+	 * @since 0.0.0.1
+	 * @version 0.0.0.1
+	 */
 	public function callback_open_popup_quick_task() {
 		ob_start();
 		require( PLUGIN_TASK_MANAGER_QUICK_TASK_PATH . '/core/view/main.view.php' );
-		wp_die( ob_get_clean() );
+		wp_die( ob_get_clean() ); // WPCS: XSS is ok.
 	}
 
 	/**
@@ -89,12 +109,12 @@ class Task_Manager_Quick_Task_Action {
 	 * par l'utilisateur dans ce point.
 	 *
 	 * @return void
+	 *
+	 * @since 0.0.0.1
+	 * @version 0.0.0.1
 	 */
 	public function callback_create_quick_task() {
 		check_ajax_referer( 'create_quick_task' );
-
-
-
 		wp_send_json_success();
 	}
 }

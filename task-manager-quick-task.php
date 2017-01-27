@@ -5,7 +5,7 @@
  * @package Eoxia\Plugin
  */
 
-namespace task_manager_quick_action;
+namespace task_manager_quick_task;
 /**
  * Plugin Name: Task Manager Quick Task
  * Plugin URI:

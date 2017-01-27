@@ -1,4 +1,4 @@
-<?php namespace task_manager_quick_action;
+<?php namespace task_manager_quick_task;
 
 if ( !defined( 'ABSPATH' ) ) exit; ?>
 
