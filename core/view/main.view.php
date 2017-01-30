@@ -14,9 +14,9 @@ namespace task_manager_quick_task;
 
 if ( ! defined( 'ABSPATH' ) ) {	exit; } ?>
 
-<form action="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" class="form quick-task">
+<form method="POST" action="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" class="form quick-task">
 	<input type="hidden" name="action" value="create_quick_task" />
-	<input type="hidden" name="parent_id" value="10" />
+	<input type="text" name="parent_id" value="<?php echo esc_attr( config_util::$init['task-manager-quick-task']->client_parent_id ); ?>" />
 	<?php wp_nonce_field( 'create_quick_task' ); ?>
 
 	<textarea name="comment"></textarea>

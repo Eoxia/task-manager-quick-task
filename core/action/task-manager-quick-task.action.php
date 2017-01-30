@@ -115,6 +115,37 @@ class Task_Manager_Quick_Task_Action {
 	 */
 	public function callback_create_quick_task() {
 		check_ajax_referer( 'create_quick_task' );
+
+		$parent_id = ! empty( $_POST['parent_id'] ) ? (int) $_POST['parent_id'] : 0;
+		$comment = ! empty( $_POST['comment'] ) ? sanitize_text_field( $_POST['comment'] ) : '';
+		$time = ! empty( $_POST['time'] ) ? sanitize_text_field( $_POST['time'] ) : '';
+
+		if ( 0 === $parent_id || '' === $comment || '' === $time ) {
+			wp_send_json_error();
+		}
+
+		global $task_controller;
+		global $point_controller;
+		global $time_controller;
+
+		$current_user = wp_get_current_user();
+
+		$task = $task_controller::g()->update( array(
+			'parent_id' => $parent_id,
+			'title' => __( 'Unclassified', 'task-manager-quick-task' ),
+		) );
+
+		$point = $point_controller::g()->update( array(
+			'parent_id' => $task->id,
+			'content' => $current_user->user_login,
+		) );
+
+		$time = $time_controller::g()->update( array(
+			'status' => '-34070',
+			'content' => $content,
+			'parent_id' => $point->id
+		) );
+
 		wp_send_json_success();
 	}
 }

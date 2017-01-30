@@ -9,5 +9,6 @@
 		"core/external/wpeo_model/wpeo_model.config.json",
 		"core/core.config.json"
 	],
-	"debug": false
+	"debug": false,
+	"client_parent_id": 1
 }
