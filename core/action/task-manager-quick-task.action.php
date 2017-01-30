@@ -130,20 +130,29 @@ class Task_Manager_Quick_Task_Action {
 
 		$current_user = wp_get_current_user();
 
-		$task = $task_controller::g()->update( array(
+		$task = $task_controller->create( array(
 			'parent_id' => $parent_id,
 			'title' => __( 'Unclassified', 'task-manager-quick-task' ),
 		) );
 
-		$point = $point_controller::g()->update( array(
+		$point = $point_controller->create( array(
+			'status' => '-34070',
 			'parent_id' => $task->id,
 			'content' => $current_user->user_login,
 		) );
 
-		$time = $time_controller::g()->update( array(
+		$task->option['task_info']['order_point_id'][] = (int) $point->id;
+		$task_controller->update( $task );
+
+		$time = $time_controller->create( array(
 			'status' => '-34070',
-			'content' => $content,
-			'parent_id' => $point->id
+			'content' => $comment,
+			'parent_id' => $point->id,
+			'option' => array(
+				'time_info' => array(
+					'elapsed' => $time,
+				),
+			),
 		) );
 
 		wp_send_json_success();
