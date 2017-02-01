@@ -130,19 +130,38 @@ class Task_Manager_Quick_Task_Action {
 
 		$current_user = wp_get_current_user();
 
-		$task = $task_controller->create( array(
-			'parent_id' => $parent_id,
-			'title' => __( 'Unclassified', 'task-manager-quick-task' ),
+		$task = $task_controller->index( array(
+			'post_parent' => $parent_id,
+			'name' => 'unclassified',
 		) );
 
-		$point = $point_controller->create( array(
-			'status' => '-34070',
-			'parent_id' => $task->id,
-			'content' => $current_user->user_login,
+		if ( empty( $task ) ) {
+			$task = $task_controller->create( array(
+				'parent_id' => $parent_id,
+				'title' => __( 'Unclassified', 'task-manager-quick-task' ),
+			) );
+		} else {
+			$task = $task[0];
+		}
+
+		$point = $point_controller->index( $task->id, array(
+			'user_id' => $current_user->ID,
+			'status' => -34070,
 		) );
 
-		$task->option['task_info']['order_point_id'][] = (int) $point->id;
-		$task_controller->update( $task );
+		if ( empty( $point ) ) {
+			$point = $point_controller->create( array(
+				'status' => '-34070',
+				'author_id' => $current_user->ID,
+				'post_id' => $task->id,
+				'content' => $current_user->user_login,
+			) );
+
+			$task->option['task_info']['order_point_id'][] = (int) $point->id;
+			$task_controller->update( $task );
+		} else {
+			$point = $point[0];
+		}
 
 		$time = $time_controller->create( array(
 			'status' => '-34070',

@@ -7,8 +7,6 @@
 	"dependencies": {
 		"util": {},
 		"action": {},
-		"class": {},
-		"helper": {},
-		"shortcode": {}
+		"helper": {}
 	}
 }
