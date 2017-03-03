@@ -8,3 +8,9 @@
 window.taskManagerQuickTask.core = {};
 
 window.taskManagerQuickTask.core.init = function() {};
+
+window.taskManagerQuickTask.core.createQuickTaskSuccess = function( element, response ) {
+	jQuery( '.form.quick-task textarea[name="comment"]' ).val( '' );
+	jQuery( '.form.quick-task input[name="time"]' ).val( '15' );
+	jQuery( '.quick-task-log' ).append( '<li>' + response.data.time.time.date + ' : ' + response.data.time.time.content + '</li>' );
+};

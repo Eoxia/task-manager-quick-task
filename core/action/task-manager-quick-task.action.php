@@ -166,6 +166,7 @@ class Task_Manager_Quick_Task_Action {
 		$time = $time_controller->create( array(
 			'status' => '-34070',
 			'content' => $comment,
+			'date' => current_time( 'mysql' ),
 			'parent_id' => $point->id,
 			'option' => array(
 				'time_info' => array(
@@ -174,7 +175,11 @@ class Task_Manager_Quick_Task_Action {
 			),
 		) );
 
-		wp_send_json_success();
+		wp_send_json_success( array(
+			'module' => 'core',
+			'callback_success' => 'createQuickTaskSuccess',
+			'time' => $time,
+		) );
 	}
 }
 
