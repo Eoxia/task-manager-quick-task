@@ -79,10 +79,11 @@ class Task_Manager_Quick_Task_Action {
 
 		$button_open_popup = array(
 			'id'       	=> 'button-open-popup-quick-task',
+			'parent'		=> 'new-content',
 			'href'			=> '#',
-			'title'    	=> __( 'Quick task', 'task_manager_quick_task' ),
+			'title'    	=> __( 'Tâche rapide', 'task_manager_quick_task' ),
 			'meta'		 	=> array(
-				'onclick' => 'tb_show( "Quick Task", "' . $href . '")',
+				'onclick' => 'tb_show( "Tâche rapide", "' . $href . '")',
 			),
 		);
 
