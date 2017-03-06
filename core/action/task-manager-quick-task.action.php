@@ -169,6 +169,7 @@ class Task_Manager_Quick_Task_Action {
 			'content' => $comment,
 			'date' => current_time( 'mysql' ),
 			'parent_id' => $point->id,
+			'author_id' => $current_user->ID,
 			'option' => array(
 				'time_info' => array(
 					'elapsed' => $time,
