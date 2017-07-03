@@ -10,7 +10,7 @@ namespace task_manager_quick_task;
  * Plugin Name: Task Manager Quick Task
  * Plugin URI:
  * Description: Outils pour écrire des tâches rapidements dans le compte client "eoxia" de WPShop.
- * Version:     0.0.0.1
+ * Version:     1.0.0.0
  * Author:      Eoxia
  * Author URI:  http://www.eoxia.com
  * License:     GPL2
@@ -23,8 +23,8 @@ DEFINE( 'PLUGIN_TASK_MANAGER_QUICK_TASK_PATH', str_replace( '\\', '/', realpath(
 DEFINE( 'PLUGIN_TASK_MANAGER_QUICK_TASK_URL', plugins_url( basename( __DIR__ ) ) . '/' );
 DEFINE( 'PLUGIN_TASK_MANAGER_QUICK_TASK_DIR', basename( __DIR__ ) );
 
-require_once 'core/util/singleton.util.php';
-require_once 'core/util/init.util.php';
-require_once 'core/helper/model.helper.php';
+require_once 'core/external/wpeo_util/singleton.util.php';
+require_once 'core/external/wpeo_util/init.util.php';
+require_once 'core/external/wpeo_log/class/log.class.php';
 
-Init_util::g()->exec();
+\eoxia\Init_Util::g()->exec( PLUGIN_TASK_MANAGER_QUICK_TASK_PATH, basename( __FILE__, '.php' ) );

@@ -55,7 +55,7 @@ class Task_Manager_Quick_Task_Action {
 	 * @version 0.0.0.1
 	 */
 	public function callback_admin_enqueue_scripts() {
-		wp_enqueue_script( 'task-manager-quick-task-script', PLUGIN_TASK_MANAGER_QUICK_TASK_URL . 'core/assets/js/backend.min.js', array(), config_util::$init['task-manager-quick-task']->version, false );
+		wp_enqueue_script( 'task-manager-quick-task-script', PLUGIN_TASK_MANAGER_QUICK_TASK_URL . 'core/assets/js/backend.min.js', array(), \eoxia\config_util::$init['task-manager-quick-task']->version, false );
 	}
 
 
@@ -125,59 +125,53 @@ class Task_Manager_Quick_Task_Action {
 			wp_send_json_error();
 		}
 
-		global $task_controller;
-		global $point_controller;
-		global $time_controller;
-
 		$current_user = wp_get_current_user();
 
-		$task = $task_controller->index( array(
+		$task = \task_manager\Task_Class::g()->get( array(
 			'post_parent' => $parent_id,
 			'name' => 'unclassified',
-		) );
+		), true );
 
 		if ( empty( $task ) ) {
-			$task = $task_controller->create( array(
+			$task = \task_manager\Task_Class::g()->update( array(
 				'parent_id' => $parent_id,
 				'title' => __( 'Unclassified', 'task-manager-quick-task' ),
 			) );
-		} else {
-			$task = $task[0];
 		}
 
-		$point = $point_controller->index( $task->id, array(
+		$point = \task_manager\Point_Class::g()->get( array(
 			'user_id' => $current_user->ID,
+			'post__in' => $task->id,
 			'status' => -34070,
-		) );
+			'parent' => 0,
+		), true );
 
-		if ( empty( $point ) ) {
-			$point = $point_controller->create( array(
+		if ( 0 === $point->id ) {
+			$point = \task_manager\Point_Class::g()->update( array(
 				'status' => '-34070',
 				'author_id' => $current_user->ID,
 				'post_id' => $task->id,
 				'content' => $current_user->user_login,
 			) );
 
-			$task->option['task_info']['order_point_id'][] = (int) $point->id;
-			$task_controller->update( $task );
-		} else {
-			$point = $point[0];
+			$task->task_info['order_point_id'][] = (int) $point->id;
+			\task_manager\Task_Class::g()->update( $task );
 		}
 
-		$time = $time_controller->create( array(
+		$time = \task_manager\Task_Comment_Class::g()->update( array(
 			'status' => '-34070',
 			'content' => $comment,
 			'date' => current_time( 'mysql' ),
+			'post_id' => $task->id,
 			'parent_id' => $point->id,
 			'author_id' => $current_user->ID,
-			'option' => array(
-				'time_info' => array(
-					'elapsed' => $time,
-				),
+			'time_info' => array(
+				'elapsed' => $time,
 			),
 		) );
 
 		wp_send_json_success( array(
+			'namespace' => 'taskManagerQuickTask',
 			'module' => 'core',
 			'callback_success' => 'createQuickTaskSuccess',
 			'time' => $time,

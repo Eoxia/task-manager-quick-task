@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {	exit; } ?>
 
 <form method="POST" style="width: 100%" action="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" class="form quick-task">
 	<input type="hidden" name="action" value="create_quick_task" />
-	<input type="hidden" name="parent_id" value="<?php echo esc_attr( config_util::$init['task-manager-quick-task']->client_parent_id ); ?>" />
+	<input type="hidden" name="parent_id" value="<?php echo esc_attr( \eoxia\config_util::$init['task-manager-quick-task']->client_parent_id ); ?>" />
 	<?php wp_nonce_field( 'create_quick_task' ); ?>
 
 	<textarea style="width: 100%" name="comment"></textarea>

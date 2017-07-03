@@ -5,7 +5,6 @@
 	"description": "Le module boot de Task Manager Quick Task",
 	"path": "core/",
 	"dependencies": {
-		"util": {},
 		"action": {},
 		"helper": {}
 	}
